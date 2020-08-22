@@ -28,7 +28,6 @@ function sendMessage() {
 function addMessageToChat(message) {
     username = "Antoine";
     let isCurrentUserMessage = message.userName === username;
-    console.log(message);
 
     if (isCurrentUserMessage) {
         let container = document.createElement('div');

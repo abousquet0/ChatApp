@@ -24,7 +24,15 @@ namespace ChatApp.Controllers
                 return RedirectToAction("ChatRoom", "Chat");
         }
 
-        public IActionResult CreateRoom(string roomName, string password)
+        [HttpGet]
+        public ViewResult CreateRoom()
+        {
+            return View(new CreateRoomViewModel());
+        }
+
+        [HttpPost]
+        [ActionName("CreateRoom")]
+        public IActionResult CreateRoomPost(string roomName, string password)
         {
             return View();
         }
