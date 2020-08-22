@@ -36,7 +36,7 @@
                                 <p>
                                     @message.Content
                                 </p>
-                                <span class="time_date">@message.Date.ToString("MM/dd/yyyy HH:mm:ss")</span>
+                                <span class="time_date">@message.Date.ToString("dd/MM/yyyy HH:mm:ss")</span>
                             </div>
                         </div>
                     </div>
@@ -61,6 +61,7 @@
     </div>
 </div>
 
+<script type="text/javascript" src="~/lib/dateformat/dateformat.js"></script>
 <script type="text/javascript" src="~/lib/signalr/dist/browser/signalr.js"></script>
 <script type="text/javascript" src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.js"></script>
 <script type="text/javascript" src="~/js/chat.js"></script>

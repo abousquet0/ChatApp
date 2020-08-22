@@ -2,13 +2,6 @@
     .withUrl('/Home/Index')
     .build();
 
-//connection = new signalR.HubConnectionBuilder()
-//    .configureLogging(signalR.LogLevel.Debug)
-//    .withUrl('https://localhost:*****/chat/chatroom', {
-//        skipNegotiation: true,
-//        transport: signalR.HttpTransportType.WebSockets
-//    })
-//    .build();
 
 connection.on('ReceiveMessage', addMessageToChat);
 

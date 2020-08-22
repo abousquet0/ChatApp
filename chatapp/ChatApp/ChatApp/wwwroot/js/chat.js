@@ -28,8 +28,7 @@ function sendMessage() {
 function addMessageToChat(message) {
     username = "Antoine";
     let isCurrentUserMessage = message.userName === username;
-    console.log(isCurrentUserMessage);
-
+    console.log(message);
 
     if (isCurrentUserMessage) {
         let container = document.createElement('div');
@@ -43,9 +42,7 @@ function addMessageToChat(message) {
 
         let date = document.createElement('span');
         date.className = "time_date";
-        var currentTime = new Date();
-        date.innerHTML = currentTime.getMonth() + "/" + currentTime.getDay() + "/" + currentTime.getFullYear() +
-            "/" + currentTime.getHours(); + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
+        date.innerHTML = dateFormat(message.date, "MM-dd-yyyy HH:mm:ss");
 
         chat.appendChild(container);
         container.appendChild(container2);
@@ -73,9 +70,7 @@ function addMessageToChat(message) {
 
         let date = document.createElement('span');
         date.className = "time_date";
-        var currentTime = new Date();
-        date.innerHTML = currentTime.getMonth() + "/" + currentTime.getDay() + "/" + currentTime.getFullYear() +
-            "/" + currentTime.getHours(); + ":" + currentTime.getMinutes() + ":" + currentTime.getSeconds();
+        date.innerHTML = dateFormat(message.date, "MM-dd-yyyy HH:mm:ss");
 
 
         container.appendChild(container2);
