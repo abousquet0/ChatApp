@@ -10,9 +10,9 @@ namespace ChatApp.Models
     {
         [Key]
         public int ChatRoomID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter a room name.")]
         public string RoomName { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Please enter a password.")]
         public string Password { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
     }

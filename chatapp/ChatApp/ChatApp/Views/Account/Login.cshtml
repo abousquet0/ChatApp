@@ -1,27 +1,26 @@
-﻿@model ChatRoom
+﻿@model LoginModel
 @{
-    ViewData["Title"] = "CreateRoom";
+    ViewData["Title"] = "Login";
 }
-
-<style>
-
-</style>
 
 <div class="container">
     <div class="row">
         <div class="col-md-12">
             <div class="login-form">
-                <form asp-controller="Home" asp-action="CreateRoom" method="post">
-                    <h2 class="text-center">Create a room!</h2>
+                <form asp-controller="Account" asp-action="Login" method="post">
+                    <h2 class="text-center">Login</h2>
                     <div asp-validation-summary="All" class="text-danger"></div>
                     <div class="form-group">
-                        <input asp-for="RoomName" type="text" class="form-control" placeholder="Room name...">
+                        <input asp-for="UserName" type="text" class="form-control" placeholder="Username...">
                     </div>
                     <div class="form-group">
                         <input asp-for="Password" type="password" class="form-control" placeholder="Password...">
                     </div>
                     <div class="form-group">
                         <button type="submit" class="btn btn-primary btn-block">submit</button>
+                    </div>
+                    <div class="form-group">
+                        <a onclick="@("window.location.href='" + @Url.Action("CreateAccount", "Account") + "'");" class="btn btn-primary btn-block">Create account</a>
                     </div>
                     <div class="clearfix">
                     </div>

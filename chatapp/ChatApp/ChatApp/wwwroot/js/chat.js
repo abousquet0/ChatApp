@@ -1,13 +1,13 @@
 ﻿class Message {
     constructor(username, text, when) {
-        this.userName = username;
+        this.UserName = username;
         this.content = text;
         this.date = when;
     }
 }
 
 const chat = document.getElementById('chat');
-
+const username = document.getElementById('currentUser').value;
 
 document.getElementById('submitButton').addEventListener('click', () => {
     sendMessage();
@@ -18,16 +18,20 @@ function clearInputField() {
 }
 
 function sendMessage() {
-    var username = "Antoine";
     let when = new Date();
     let textInput = document.getElementById('messageText').value;
     let message = new Message(username, textInput, when);
+
     sendMessageToHub(message);
 }
 
 function addMessageToChat(message) {
-    username = "Antoine";
+    console.log(message.userName);
+    console.log(username);
+
+
     let isCurrentUserMessage = message.userName === username;
+    console.log(isCurrentUserMessage);
 
     if (isCurrentUserMessage) {
         let container = document.createElement('div');
@@ -50,13 +54,15 @@ function addMessageToChat(message) {
         chat.appendChild(container);
     }
     else {
+        console.log("TEST");
+
         let container = document.createElement('div');
         container.className = "incoming_msg";
 
         // Ajuster pour image ici
         let container2 = document.createElement('div');
-        container2.className = "sent_msg";
-        container2.innerHTML = "<img  >";
+        container2.className = "incoming_msg_img";
+        container2.innerHTML = "<img src='https://ptetutorials.com/images/user-profile.png'/>";
 
         let container3 = document.createElement('div');
         container3.className = "received_msg";
@@ -65,18 +71,20 @@ function addMessageToChat(message) {
         container4.className = "received_withd_msg";
 
         let sender = document.createElement('p');
-        sender.innerHTML = message.text;
+        sender.innerHTML = message.content;
 
         let date = document.createElement('span');
         date.className = "time_date";
         date.innerHTML = dateFormat(message.date, "MM-dd-yyyy HH:mm:ss");
 
-
         container.appendChild(container2);
-        container2.appendChild(container3);
+        container.appendChild(container3);
         container3.appendChild(container4);
         container4.appendChild(sender);
-        container.appendChild(when);
+        container4.appendChild(date);
         chat.appendChild(container);
     }
+
+    var objDiv = document.getElementById("chat");
+    objDiv.scrollTop = objDiv.scrollHeight;
 }

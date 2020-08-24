@@ -7,6 +7,8 @@ using ChatApp.Hubs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +32,18 @@ namespace ChatApp
                 options => options.UseSqlServer(
                 _configuration["Data:Connection:ConnectionString"]));
 
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                options.UseSqlServer(
+                _configuration["Data:Connection:ConnectionStringIdentity"]));
+
+            services.AddIdentity<IdentityUser, IdentityRole>(opts => {
+                opts.Password.RequiredLength = 6;
+                opts.Password.RequireNonAlphanumeric = false;
+            })
+                .AddEntityFrameworkStores<AppIdentityDbContext>()
+                .AddDefaultTokenProviders();
+
+
             services.AddTransient<IRepositoryWrapper, RepositoryWrapper>();
             services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
@@ -50,10 +64,6 @@ namespace ChatApp
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-                //routes.MapRoute(
-                //    name: "chat",
-                //    template: "{controller=Chat}/{action=ChatRoom}/{id?}",
-                //    defaults: new { controller = "Chat", action = "ChatRoom" });
             });
         }
     }

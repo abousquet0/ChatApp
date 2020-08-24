@@ -14,5 +14,16 @@ namespace ChatApp.Hubs
         {
             await Clients.All.SendAsync("ReceiveMessage", message);
         }
+        public Task JoinRoom(string roomName)
+        {
+            Clients.Group(roomName).SendAsync(Context.User.Identity.Name + " joined.");
+            return Groups.AddToGroupAsync(Context.ConnectionId, roomName);
+        }
+
+        public Task LeaveRoom(string roomName)
+        {
+            Clients.Group(roomName).SendAsync(Context.User.Identity.Name + " left.");
+            return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
+        }
     }
 }

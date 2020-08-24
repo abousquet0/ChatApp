@@ -123,9 +123,14 @@
     background: #e8f6ff;
 }
 
+.incoming_msg {
+    margin: 10px;
+}
+
 .incoming_msg_img {
     display: inline-block;
     width: 6%;
+    max-width:40px;
 }
 
     .incoming_msg_img img {
