@@ -18,20 +18,18 @@ function clearInputField() {
 }
 
 function sendMessage() {
-    let when = new Date();
-    let textInput = document.getElementById('messageText').value;
-    let message = new Message(username, textInput, when);
+    let textInput = document.getElementById('messageText');
 
-    sendMessageToHub(message);
+    if (textInput.value.trim() != "") {
+        let when = new Date();
+        let content = textInput.value;
+        let message = new Message(username, content, when);
+        sendMessageToHub(message);
+    }
 }
 
 function addMessageToChat(message) {
-    console.log(message.userName);
-    console.log(username);
-
-
     let isCurrentUserMessage = message.userName === username;
-    console.log(isCurrentUserMessage);
 
     if (isCurrentUserMessage) {
         let container = document.createElement('div');
@@ -45,16 +43,16 @@ function addMessageToChat(message) {
 
         let date = document.createElement('span');
         date.className = "time_date";
-        date.innerHTML = dateFormat(message.date, "MM-dd-yyyy HH:mm:ss");
+        date.innerHTML = dateFormat(message.date, "mm-dd-yyyy HH:MM:ss");
 
         chat.appendChild(container);
         container.appendChild(container2);
         container2.appendChild(sender);
         container2.appendChild(date);
         chat.appendChild(container);
+        $("#messageText").val("");
     }
     else {
-        console.log("TEST");
 
         let container = document.createElement('div');
         container.className = "incoming_msg";
@@ -75,7 +73,7 @@ function addMessageToChat(message) {
 
         let date = document.createElement('span');
         date.className = "time_date";
-        date.innerHTML = dateFormat(message.date, "MM-dd-yyyy HH:mm:ss");
+        date.innerHTML = dateFormat(message.date, "mm-dd-yyyy HH:MM:ss");
 
         container.appendChild(container2);
         container.appendChild(container3);

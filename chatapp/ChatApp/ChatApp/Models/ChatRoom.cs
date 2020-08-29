@@ -15,5 +15,6 @@ namespace ChatApp.Models
         [Required(ErrorMessage = "Please enter a password.")]
         public string Password { get; set; }
         public virtual ICollection<Message> Messages { get; set; }
+        public string Guid { get; set; }
     }
 }

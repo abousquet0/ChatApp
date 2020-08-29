@@ -38,7 +38,7 @@
                 }
             </div>
             <input hidden value="@Model.CurrentUser" id="currentUser" />
-            <form asp-action="Create" asp-controller="Chat" method="post" data-ajax="true" data-ajax-method="post" data-ajax-completed>
+            <form id="messageForm" asp-action="Create" asp-controller="Chat" method="post" data-ajax="true" data-ajax-method="post" data-ajax-completed>
                 <div class="type_msg">
                     <div class="input_msg_write">
                         <input hidden value="@Model.RoomID" name="ChatRoomID" type="text" />
@@ -62,4 +62,5 @@
         var objDiv = document.getElementById("chat");
         objDiv.scrollTop = objDiv.scrollHeight;
     });
+
 </script>

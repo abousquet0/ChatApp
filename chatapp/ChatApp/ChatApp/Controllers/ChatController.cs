@@ -2,8 +2,10 @@
 using ChatApp.Models;
 using ChatApp.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -23,9 +25,15 @@ namespace ChatApp.Controllers
 
         public IActionResult ChatRoom(int chatRoomID)
         {
+            ChatRoom chatRoom = _repositoryWrapper.ChatRoom.FindByContition(x => x.ChatRoomID == chatRoomID).Include(x => x.Messages).FirstOrDefault();
+            if (chatRoom == null || (Request.Cookies["RoomGuid"] != chatRoom.Guid))
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
             ChatRoomViewModel chatRoomViewModel = new ChatRoomViewModel();
             chatRoomViewModel.CurrentUser = User.Identity.Name;
-            chatRoomViewModel.Messages = _repositoryWrapper.Message.FindByContition(x => x.ChatRoomID == chatRoomID)?.OrderBy(m => m.Date).ToList();
+            chatRoomViewModel.Messages = chatRoom.Messages.ToList();
             chatRoomViewModel.RoomID = chatRoomID;
             return View(chatRoomViewModel);
         }

@@ -8,6 +8,7 @@ using ChatApp.Data;
 using ChatApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace ChatApp.Controllers
 {
@@ -24,6 +25,7 @@ namespace ChatApp.Controllers
             return View(new ChatRoom());
         }
 
+        [HttpPost]
         public IActionResult LoginToRoom(ChatRoom chatRoom)
         {
             string chatRoomName = chatRoom.RoomName;
@@ -38,7 +40,10 @@ namespace ChatApp.Controllers
                 return View("Index", new ChatRoom());
             }
             else
+            {
+                CreateCookie(chat.Guid);
                 return RedirectToAction("ChatRoom", "Chat", new { chatRoomID = chat.ChatRoomID });
+            }
         }
 
         [HttpGet]
@@ -51,6 +56,8 @@ namespace ChatApp.Controllers
         [ActionName("CreateRoom")]
         public IActionResult CreateRoomPost(ChatRoom chatRoom)
         {
+            chatRoom.Guid = new Guid().ToString();
+
             if (_repositoryWrapper.ChatRoom.FindByContition(x => x.RoomName == chatRoom.RoomName).Count() != 0)
                 ModelState.AddModelError("InvalidName", "A room already exist with this name.");
             
@@ -61,7 +68,27 @@ namespace ChatApp.Controllers
             _repositoryWrapper.ChatRoom.Create(chatRoom);
             _repositoryWrapper.Save();
 
-            return RedirectToAction("ChatRoom", "Chat", new { id = chatRoom.ChatRoomID });
+            CreateCookie(chatRoom.Guid);
+            return RedirectToAction("ChatRoom", "Chat", new { chatRoomID = chatRoom.ChatRoomID });
+        }
+
+        private void CreateCookie(string cookieValue)
+        {
+            RemoveCookie();
+            string key = "RoomGuid";
+            string value = cookieValue;
+            CookieOptions cookieOptions = new CookieOptions();
+            cookieOptions.Expires = DateTime.Now.AddDays(7);
+            Response.Cookies.Append(key, value, cookieOptions);
+        }
+
+        private void RemoveCookie()
+        {
+            string key = "RoomGuid";
+            string value = "";
+            CookieOptions cookieOptions = new CookieOptions();
+            cookieOptions.Expires = DateTime.Now.AddDays(-1);
+            Response.Cookies.Append(key, value, cookieOptions);
         }
     }
 }

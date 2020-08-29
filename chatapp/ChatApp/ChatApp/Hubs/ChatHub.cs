@@ -10,19 +10,17 @@ namespace ChatApp.Hubs
 {
     public class ChatHub : Hub
     {
-        public async Task SendMessage(Message message)
+        public async Task SendMessageToGroup(Message message, string group)
         {
-            await Clients.All.SendAsync("ReceiveMessage", message);
+            await Clients.Group(group).SendAsync("ReceiveMessage", message);
         }
-        public Task JoinRoom(string roomName)
+        public Task JoinGroup(string roomName)
         {
-            Clients.Group(roomName).SendAsync(Context.User.Identity.Name + " joined.");
             return Groups.AddToGroupAsync(Context.ConnectionId, roomName);
         }
 
-        public Task LeaveRoom(string roomName)
+        public Task LeaveGroup(string roomName)
         {
-            Clients.Group(roomName).SendAsync(Context.User.Identity.Name + " left.");
             return Groups.RemoveFromGroupAsync(Context.ConnectionId, roomName);
         }
     }
