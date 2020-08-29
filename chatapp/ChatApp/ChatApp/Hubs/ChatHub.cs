@@ -12,6 +12,7 @@ namespace ChatApp.Hubs
     {
         public async Task SendMessageToGroup(Message message, string group)
         {
+            message.UserName = Context.User.Identity.Name;
             await Clients.Group(group).SendAsync("ReceiveMessage", message);
         }
         public Task JoinGroup(string roomName)

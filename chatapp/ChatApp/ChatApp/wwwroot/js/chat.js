@@ -53,7 +53,6 @@ function addMessageToChat(message) {
         $("#messageText").val("");
     }
     else {
-
         let container = document.createElement('div');
         container.className = "incoming_msg";
 
@@ -73,7 +72,7 @@ function addMessageToChat(message) {
 
         let date = document.createElement('span');
         date.className = "time_date";
-        date.innerHTML = dateFormat(message.date, "mm-dd-yyyy HH:MM:ss");
+        date.innerHTML = dateFormat(message.date, "mm-dd-yyyy HH:MM:ss") + " - " + message.userName;
 
         container.appendChild(container2);
         container.appendChild(container3);
